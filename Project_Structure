@@ -1,0 +1,6 @@
+We will create abstract class as different currency wallet and interface as converter and compare.
+  Wallet class has add, substract, GUI methods
+    exception might happen when different currency add or substract.
+    reading and writing file will occur for base saving and final result.
+  Interface has converter and compare with different currency.
+  
