@@ -1,6 +1,6 @@
 package final_group_project;
 
-public abstract class Bank {
+public abstract class Bank{
 	
 	private double total;
 	private double USDollar;
@@ -11,8 +11,9 @@ public abstract class Bank {
 	private double peso;
 	private double poundSterling;
 	private double dong;
+	private double interestRate;
 	
-	public Bank(double total, double USDollar, double austoralianDollar, double canadianDollar, double yen, double euro, double peso, double poundSterling, double dong)
+	public Bank(double total, double USDollar, double austoralianDollar, double canadianDollar, double yen, double euro, double peso, double poundSterling, double dong, double interestRate)
 	{
 		this.total = total;
 		this.USDollar = USDollar;
@@ -115,8 +116,23 @@ public abstract class Bank {
 		dong = rate;
 	}
 	
+	public final double getInterestRate()
+	{
+		return interestRate;
+	}
+	
+	public final void setInterestRate(double interest)
+	{
+		this.interestRate = interest;
+	}
+	
+	//public abstract void calculateInterest(int year, double money);
 	public abstract void deposit(double money);
-	public abstract void withdrow(double money);
-	public abstract void record(); //use data structure here to record the action
+	public abstract void withdraw(double money);
+	public abstract void showTotal();
+	public abstract void record(); //use data structure here to record the action still thinking how it works
 	public abstract void description(); //use reading file here to get the bank description like currency rate and saving
+	public abstract void transitFromOtherBank(double money, double balance, int bank); //use switch state or if statement. need assign the result value in main class
+	public abstract void transitToOtherBank(double money, int bank, Bank bank2);
+	//public abstract int compareTo(Bank bank2);
 }
