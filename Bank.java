@@ -24,6 +24,7 @@ public abstract class Bank{
 		this.peso = peso;
 		this.poundSterling = poundSterling;
 		this.dong = dong;
+		this.interestRate = interestRate;
 	}
 	
 	public final double getTotal()
