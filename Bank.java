@@ -127,7 +127,7 @@ public abstract class Bank{
 		this.interestRate = interest;
 	}
 	
-	//public abstract void calculateInterest(int year, double money);
+	public abstract void calculateInterest(int year);
 	public abstract void deposit(double money);
 	public abstract void withdraw(double money);
 	public abstract void showTotal();
@@ -135,5 +135,5 @@ public abstract class Bank{
 	public abstract void description(); //use reading file here to get the bank description like currency rate and saving
 	public abstract void transitFromOtherBank(double money, double balance, int bank); //use switch state or if statement. need assign the result value in main class
 	public abstract void transitToOtherBank(double money, int bank, Bank bank2);
-	//public abstract int compareTo(Bank bank2);
+	public abstract int compareTo(Bank bank2);
 }
