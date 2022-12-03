@@ -1,0 +1,8 @@
+US: 100
+Australian: 100
+Canadian: 100
+Yen: 10000
+Euro: 1000
+Peso: 1000
+Pound: 300
+Dong: 10000
