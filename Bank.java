@@ -1,10 +1,10 @@
 package final_group_project;
 
-public abstract class Bank{
+public abstract class Bank implements Comparable<Bank>{
 	
 	private double total;
 	private double USDollar;
-	private double austoralianDollar;
+	private double australianDollar;
 	private double canadianDollar;
 	private double yen;
 	private double euro;
@@ -13,11 +13,11 @@ public abstract class Bank{
 	private double dong;
 	private double interestRate;
 	
-	public Bank(double total, double USDollar, double austoralianDollar, double canadianDollar, double yen, double euro, double peso, double poundSterling, double dong, double interestRate)
+	public Bank(double total, double USDollar, double australianDollar, double canadianDollar, double yen, double euro, double peso, double poundSterling, double dong, double interestRate)
 	{
 		this.total = total;
 		this.USDollar = USDollar;
-		this.austoralianDollar = austoralianDollar;
+		this.australianDollar = australianDollar;
 		this.canadianDollar = canadianDollar;
 		this.yen = yen;
 		this.euro = euro;
@@ -47,14 +47,14 @@ public abstract class Bank{
 		USDollar = rate;
 	}
 	
-	public final double getAustoralianDollar()
+	public final double getAustralianDollar()
 	{
-		return austoralianDollar;
+		return australianDollar;
 	}
 	
-	public final void setAustoralianDollar(double rate)
+	public final void setAustralianDollar(double rate)
 	{
-		austoralianDollar = rate;
+		australianDollar = rate;
 	}
 	
 	public final double getCanadianDollar()
@@ -136,5 +136,5 @@ public abstract class Bank{
 	public abstract void transitFromOtherBank(double money, double balance, int bank); //use switch state or if statement. need assign the result value in main class
 	public abstract void transitToOtherBank(double money, int bank, Bank bank2);
 	public abstract int compareTo(Bank bank2);
-	public abstract voi GUI();
+	public abstract void GUI();
 }
