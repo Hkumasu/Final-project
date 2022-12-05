@@ -1,0 +1,6 @@
+This is description about the JapaneseBank class and USBank class.
+They have same methods
+
+Deposit method: add the amount of money that users entered to total saving
+Withdraw method: subtract the amount of money taht users entered to total saving
+calculate interest mehtod: calculate interest years base on the year that users entered
