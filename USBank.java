@@ -554,7 +554,6 @@ public class USBank extends Bank implements Converter, ActionListener{
 			case "7": bank[0].showTotal();
 			break;
 			case "8": bank[0].record();
-			printRecord();
 			break;
 			case "9": System.out.println("Thank you!");
 			exit = true;
