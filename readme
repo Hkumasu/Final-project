@@ -1,4 +1,4 @@
-To launch this project you will need Bank abstract class, converter interface, bank_information.txt, USBank class, JapaneseBank class.
+To launch this project you will need Bank abstract class, converter interface, bank_information.txt, USBank class, and JapaneseBank class.
 USBank and JapaneseBank classes has their own main method.
 If you compile USBank, then the the program will start as US bank account.
 If you compile JapaneseBank, then the program will start as Japanese account.
@@ -7,11 +7,22 @@ If you compile JapaneseBank, then the program will start as Japanese account.
 This is description about the JapaneseBank class and USBank class.
 They have the same methods.
 In the both main methods, 8 objects will concreate in general. However, in my code, I have only JapaneseBank and USBank classes.
-So, two objects will create base on the class.
+So, only two objects will create base on the class. I make other 6 objects as comments. If you combine other group members
+classes, then make the concrete object uncommmented.
+
+There is 7 options to transit from the bank to another currency bank. However, only one option will work
+since I cannot create other objects. 
+In the USBank class, only converting to Yen works.
+In the Japanese class, only converting to US Dollar works.
+
+
+Each bank total saving will read from file(bank_information.txt) and concreate object by using the information.
+If you choose the "exit" option, the bank infromation will be save in the same file(bank_information.txt).
 
 By compiling the code, the option will show on the console.
 Only displaying convert and description will be display on GUI.
 
+constructor: just set up the instant variable
 deposit method: add the amount of money that users entered to total saving.
 withdraw method: subtract the amount of money taht users entered to total saving.
 calculate interest mehtod: calculate interest years base on the year that users entered. 
@@ -21,12 +32,19 @@ record method: print out the action deposit, withdraw, transit to other bank. Th
                data to file.
 printRecord method: write the those three actions record to the file.
 description method: Display the currency rates, interest rate, and total saving in GUI. 
-                    Even though the window is closed, the program keep going.
+                    Even though the window is closed, the program will keep going the program.
 converter method: convert from the bank currency to another bank currency. 
                   In the USBank, convert from US dollar to another currency.
                   In the JapaneseBank, conver from Yen to another currency.
-transitFromOtherBank:
-transitToOtherBank: subtract the amount from total saving. And, convert the amount
+transitFromOtherBank method: add the amount that transit from another bank to total saving.
+transitToOtherBank method: subtract the amount from total saving. And, convert the amount
                     to another bank currency.
                     call another bank's transitToOtherBank to add the converting amount
                     to total saving.
+showTotal method: Display the total saving on the console.
+GUI method: Display converter on the GUI.
+             By pressing the buttom it convert from the main bank currency to all other currency.
+             The value is random. By pressing the buttom it will show random value on the first line.
+actionPerformed: to convert from mian bank currency to all other currency when the buttom is pressed.
+
+ 
