@@ -1,6 +1,32 @@
-This is description about the JapaneseBank class and USBank class.
-They have same methods
+To launch this project you will need Bank abstract class, converter interface, bank_information.txt, USBank class, JapaneseBank class.
+USBank and JapaneseBank classes has their own main method.
+If you compile USBank, then the the program will start as US bank account.
+If you compile JapaneseBank, then the program will start as Japanese account.
 
-Deposit method: add the amount of money that users entered to total saving
-Withdraw method: subtract the amount of money taht users entered to total saving
-calculate interest mehtod: calculate interest years base on the year that users entered
+
+This is description about the JapaneseBank class and USBank class.
+They have the same methods.
+In the both main methods, 8 objects will concreate in general. However, in my code, I have only JapaneseBank and USBank classes.
+So, two objects will create base on the class.
+
+By compiling the code, the option will show on the console.
+Only displaying convert and description will be display on GUI.
+
+deposit method: add the amount of money that users entered to total saving.
+withdraw method: subtract the amount of money taht users entered to total saving.
+calculate interest mehtod: calculate interest years base on the year that users entered. 
+                           Recursive is used in here.
+record method: print out the action deposit, withdraw, transit to other bank. Those three 
+               action will record by using linked list. Also call print recrod to write the
+               data to file.
+printRecord method: write the those three actions record to the file.
+description method: Display the currency rates, interest rate, and total saving in GUI. 
+                    Even though the window is closed, the program keep going.
+converter method: convert from the bank currency to another bank currency. 
+                  In the USBank, convert from US dollar to another currency.
+                  In the JapaneseBank, conver from Yen to another currency.
+transitFromOtherBank:
+transitToOtherBank: subtract the amount from total saving. And, convert the amount
+                    to another bank currency.
+                    call another bank's transitToOtherBank to add the converting amount
+                    to total saving.
