@@ -1,5 +1,4 @@
 package final_group_project;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -16,52 +15,51 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class USBank extends Bank implements Converter, ActionListener{
-	
+public class JapaneseBank extends Bank implements Converter, ActionListener{
+
 	JTextField textField[] = new JTextField[8];
-	
 	static LinkedList<String> record = new LinkedList<String>();
 	private static final DecimalFormat df = new DecimalFormat("0.00");
 	
-	public USBank(double total, double USDollar, double australianDollar, double canadianDollar, double yen, double euro, double peso, double poundSterling, double dong, double interestRate)
+	public JapaneseBank(double total, double USDollar, double australianDollar, double canadianDollar, double yen, double euro, double peso, double poundSterling, double dong, double interestRate)
 	{
 		super(total, USDollar, australianDollar, canadianDollar, yen, euro, peso, poundSterling, dong, interestRate);
 	}
-		
+	
 	public void deposit(double money)
 	{
 		double total = getTotal() + money;
 		setTotal(total);
-			
-		record.add("Action: Deposit " + money + " US dollar" );
-	}
 		
+		record.add("Action: Deposit " + money + "yen" );
+	}
+	
 	public void withdraw(double money)
 	{
 		if(money > getTotal())
 		{
-			System.out.println("Your saving is less than " + Math.round((money * 100.0) / 100.0) + "." + " This action failed");
+			System.out.println("Your saving is less than " + money + "." + " This action failed");
 		}
 		else
 		{
 			double total = getTotal() - money;
 			setTotal(total);
-				
-			record.add("Action: Withraw " + money + " US dollar");
+			
+			record.add("Action: Withraw " + money + "yen");
 		}
 	}
-		
+	
 	public void calculateInterest(int year)
-	{		
+	{				
 		System.out.println("Interest rate is " + getInterestRate());
 		double result = calculateInterest(year, getTotal(), getInterestRate());
-		System.out.println("The amount of saving will be " + df.format(result) + " US dollar in " + year + " years");
+		System.out.println("The amount of saving will be " + df.format(result) + " yen in " + year + " years");
 	}
 		
 	private double calculateInterest(int year, double money, double rate)
 	{
 		double amount, balance = 0;
-			
+		
 		if (year > 0)
 		{
 			amount = calculateInterest(year - 1, money, rate);
@@ -70,20 +68,22 @@ public class USBank extends Bank implements Converter, ActionListener{
 			money = amount;
 			df.setRoundingMode(RoundingMode.DOWN);
 								
-			System.out.println("Compound interest year " + year + ": " + df.format(balance) + " US dollar");
-			System.out.println("Amount of Saving: " + df.format(amount) + " US dollar");
+			System.out.println("Compound interest year " + year + ": " + df.format(balance) + " yen");
+			System.out.println("Amount of Saving: " + df.format(amount) + " yen");
 		}
 		return money;
 	}
-		
+	
 	public void record()
 	{
 		if (record.isEmpty())
 		{
 			System.out.println("Any action haven't happened yet.");
+
 		}
 		else 
 		{
+			
 			for(String action : record)
 			{
 				System.out.println(action);
@@ -113,18 +113,19 @@ public class USBank extends Bank implements Converter, ActionListener{
 			System.out.println(e);
 		}
 	}
-		
+	
 	public void description()
 	{	
 		
 		JFrame frame = new JFrame();
 		frame.setTitle("Description of Bank Account");
 		
+		
 		JLabel savingLabel = new JLabel("Your Saving: " + getTotal());
-		JLabel rateLabel = new JLabel("Currency rate for 1 dollar: ");
-		JLabel label2 = new JLabel("Australia Dollar: " + getAustralianDollar());
-		JLabel label3 = new JLabel("Candian Dollar: " + getCanadianDollar());
-		JLabel label4 = new JLabel("Yen: " + getYen());
+		JLabel rateLabel = new JLabel("Currency rate for 1 yen: ");
+		JLabel label2 = new JLabel("US Dollar: " + getUSDollar());
+		JLabel label3 = new JLabel("Australia Dollar: " + getAustralianDollar());
+		JLabel label4 = new JLabel("Candian Dollar: " + getCanadianDollar());
 		JLabel label5 = new JLabel("Euro: " + getEuro());
 		JLabel label6 = new JLabel("Mexican Peso: " + getPeso());
 		JLabel label7 = new JLabel("Pound Sterlimg: " + getPoundSterling());
@@ -166,27 +167,83 @@ public class USBank extends Bank implements Converter, ActionListener{
 		currency = money * rate;
 		return currency;
 	}
-
+	
+	public void transitToOtherBank(double money, int bank, Bank bank2)
+	{
+		double balance = 0;
+		double total = getTotal();
+		
+		if (money > getTotal())
+		{
+			System.out.println("The balance is less than " + money + "." + " This action failed");
+		}
+		else 
+		{
+			total = total - money;
+			setTotal(total);
+		
+			switch(bank)
+			{
+			case 1: balance = converter(money, getUSDollar());
+			bank2.transitFromOtherBank(money, balance, 4);
+				record.add("Action: Transit " + money + " yen to American bank. It is " + balance + " US dollar");
+				System.out.println("It is " + balance + " US dollar");
+				break;
+			case 2: balance = converter(money, getAustralianDollar());
+			bank2.transitFromOtherBank(money, balance, 4);
+				record.add("Action: Transit " + money + " yen to Austoralian bank. It is " + balance + " Australian dollar");
+				System.out.println("It is " + balance + " Australian dollar");
+				break;
+			case 3: balance = converter(money, getCanadianDollar());
+			bank2.transitFromOtherBank(money, balance, 4);
+				record.add("Action: Transit " + money + " yen to Canadian bank. It is " + balance + "Canadian dollar");
+				System.out.println("It is " + balance + " Canadian dollar");
+				break;
+			case 5: balance = converter(money, getEuro());
+			bank2.transitFromOtherBank(money, balance, 4);
+				record.add("Action: Transit " + money + " yen to Euro bank. It is " + balance + " euro");
+				System.out.println("It is " + balance + " euro");
+				break;
+			case 6: balance = converter(money, getPeso());
+			bank2.transitFromOtherBank(money, balance, 4);
+				record.add("Action: Transit " + money + " yen to Mexican bank. It is " + balance + " Mexican peso");
+				System.out.println("It is " + balance + " Mexcian peso");
+				break;
+			case 7: balance = converter(money, getPoundSterling());
+			bank2.transitFromOtherBank(money, balance, 4);
+				record.add("Action: Transit " + money + " yen to British bank. It is " + balance + " pound sterling");
+				System.out.println("It is " + balance + " pound sterling");
+				break;
+			case 8: balance = converter(money, getDong());
+			bank2.transitFromOtherBank(money, balance, 4);
+				record.add("Action: Transit " + money + " yen to Vietaminese bank. It is " + balance + " dong");
+				System.out.println("It is " + balance + " dong");
+				break;
+			}
+		}
+	}
+	
 	public void transitFromOtherBank(double money, double balance, int bank)
 	{
 		double total = getTotal() + balance;
 		setTotal(total);
+	
 		switch(bank)
 		{
+		case 1: 
+			record.add("Action: Transit " + balance + " yen from American bank. It is "	+ money + " US dollar"); 
+			break;
 		case 2: 
 			record.add("Action: Transit " + balance + " dollar from Australian bank. It is " + money + " Australian dollar");
 			break;
-		case 3: 
+		case 3:
 			record.add("Action: Transit " + balance + " dollar from Canadian bank. It is " + money + " Canadian dollar");
-			break;
-		case 4:
-			record.add("Action: Transit " + balance + " dollar from Japanese bank. It is " + money + " yen");
 			break;
 		case 5: 
 			record.add("Action: Transit " + balance + " dollar from Euro bank. It is " + money + " euro");
 			break;
 		case 6: 
-			record.add("Action: Transit " + balance + " dollar from Chinese bank. It is " + money + " peso");
+			record.add("Action: Transit " + balance + " dollar from Mexican bank. It is " + money + " Mexican peso");
 			break;
 		case 7:
 			record.add("Action: Transit " + balance + " dollar from British bank. It is " + money + " pound sterling");
@@ -196,59 +253,6 @@ public class USBank extends Bank implements Converter, ActionListener{
 			break;
 		}
 		System.out.println("Transit successfully!");
-	}
-		
-	public void transitToOtherBank(double money, int bank, Bank bank2)
-	{
-		double balance;
-		double total = getTotal();
-			
-		if (money > getTotal())
-		{
-			System.out.println("Your saving is less than " + money + "." + " This action failed");
-		}
-		else 
-		{
-			total = total - money;
-			setTotal(total);
-			
-			switch(bank)
-			{
-			case 2: balance = converter(money, getAustralianDollar());
-			bank2.transitFromOtherBank(money, balance, 1);
-			record.add("Action: Transit " + money + " dollar to Australian bank. It is " + balance + " Australian dollar.");
-			System.out.println("It is " + balance + "Australian dollar");
-			break;
-			case 3: balance = converter(money, getCanadianDollar());
-			bank2.transitFromOtherBank(money, balance, 1);		
-			record.add("Action: Transit " + money + " dollar to Canadian bank. It is " + balance + " Canadian dollar.");
-			System.out.println("It is " + balance + "Canadian dollar");
-			break;
-			case 4: balance = converter(money, getYen());
-			bank2.transitFromOtherBank(money, balance, 1);
-			record.add("Action: Transit " + money + " dollar to Japanese bank. It is " + balance + " yen");
-			System.out.println("It is " + balance + " yen.");
-			break;
-			case 5: balance = converter(money, getEuro());
-			bank2.transitFromOtherBank(money, balance, 1);
-			record.add("Action: Transit " + money + " dollar to Euro bank. It is " + balance + " euro.");
-			System.out.println("It is " + balance + " euro.");
-			break;
-			case 6: balance = converter(money, getPeso());
-			bank2.transitFromOtherBank(money, balance, 1);
-			record.add("Action: Transit " + money + " dollar to Mexican bank. It is " + balance + " Mexican peso.");
-			break;
-			case 7: balance = converter(money, getPoundSterling());
-			bank2.transitFromOtherBank(money, balance, 1);
-			record.add("Action: Transit " + money + " dollar to British bank. It is " + balance + " pound sterling.");
-			break;
-			case 8: balance = converter(money, getDong());
-			bank2.transitFromOtherBank(money, balance, 1);
-			record.add("Action: Transit " + money + " dollar to Vietnamese bank. It is " + balance + " dong.");
-			System.out.println("It is " + balance + " dong.");
-			break;
-			}
-		}
 	}
 	
 	public void showTotal()
@@ -267,19 +271,19 @@ public class USBank extends Bank implements Converter, ActionListener{
 			return 0;
 		}
 	}
-		
+	
 	public void GUI()
 	{
 		JFrame frame;
-		frame = new JFrame("Converter from US dollar to");
+		frame = new JFrame("Converter from Yen to");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setSize(500, 600);
 		frame.setLayout(null);
 		
-		JLabel label1 = new JLabel("US Dollar: ");
-		JLabel label2 = new JLabel("Australia Dollar: ");
-		JLabel label3 = new JLabel("Candian Dollar: ");
-		JLabel label4 = new JLabel("Yen: ");
+		JLabel label1 = new JLabel("Yen: ");
+		JLabel label2 = new JLabel("US Dollar: ");
+		JLabel label3 = new JLabel("Australia Dollar: ");
+		JLabel label4 = new JLabel("Candian Dollar: ");
 		JLabel label5 = new JLabel("Euro: ");
 		JLabel label6 = new JLabel("Mexican Peso: ");
 		JLabel label7 = new JLabel("Pound Sterlimg: ");
@@ -359,51 +363,50 @@ public class USBank extends Bank implements Converter, ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		double balance;
-		Random random = new Random();
-		double money = random.nextInt(1000);
 		String str;
-		
-		for(int i = 0; i <= 8 ; i++)
-		{
-			switch(i)
+		double balance;
+		double money;	
+			Random random = new Random();
+			money = random.nextInt(100000);
+			for(int i = 0; i <= 8 ; i++)
 			{
-			case 0: str = Double.toString(money);
-			textField[0].setText(str);
-			break;
-			case 1: balance = converter(money, getAustralianDollar());
-			str = Double.toString(balance);
-			textField[i].setText(str);
-			break;
-			case 2: balance = converter(money, getCanadianDollar());
-			str = Double.toString(balance);
-			textField[i].setText(str);
-			break;
-			case 3: balance = converter(money, getYen());
-			str = Double.toString(balance);
-			textField[i].setText(str);
-			break;
-			case 4: balance = converter(money, getEuro());
-			str = Double.toString(balance);
-			textField[i].setText(str);
-			break;
-			case 5: balance = converter(money, getPeso());
-			str = Double.toString(balance);
-			textField[i].setText(str);
-			break;
-			case 6: balance = converter(money, getPoundSterling());
-			str = Double.toString(balance);
-			textField[i].setText(str);
-			break;
-			case 7: balance = converter(money, getDong());
-			str = Double.toString(balance);
-			textField[i].setText(str);
-			break;
-			}
+				switch(i)
+				{
+				case 0: str = Double.toString(money);
+				textField[0].setText(str);
+				break;
+				case 1: balance = converter(money, getUSDollar());
+				str = Double.toString(balance);
+				textField[1].setText(str);
+				break;
+				case 2: balance = converter(money, getAustralianDollar());	
+				str = Double.toString(balance);
+				textField[2].setText(str);
+				break;
+				case 3: balance = converter(money, getCanadianDollar());
+				str = Double.toString(balance);
+				textField[3].setText(str);
+				break;
+				case 4: balance = converter(money, getEuro());
+				str = Double.toString(balance);
+				textField[4].setText(str);
+				break;
+				case 5: balance = converter(money, getPeso());
+				str = Double.toString(balance);
+				textField[5].setText(str);
+				break;
+				case 6: balance = converter(money, getPoundSterling());
+				str = Double.toString(balance);
+				textField[6].setText(str);
+				break;
+				case 7: balance = converter(money, getDong());
+				str = Double.toString(balance);
+				textField[7].setText(str);
+				break;
+				}
+			}	
 		}
-		
-	}
-	
+
 	public static void main(String[] argus)
 	{
 		int n = 8;
@@ -465,74 +468,74 @@ public class USBank extends Bank implements Converter, ActionListener{
 		Scanner reader = new Scanner(System.in);
 		Scanner amountReader = new Scanner(System.in);	
 		
-		System.out.println("Welcome to Hazuki's US Bank.");
+		System.out.println("Welcome to Hazuki's Japanese Bank.");
 
 		while(!exit)
 		{
 			
 			System.out.println("Choose the option:");
-			System.out.println("1: Deposit   2: Withdraw      3: Transit to Another Bank    4: Display Description     5: Convert Randomlly");
-			System.out.println("6: Interest  7: Show Saving   8: Display & Print Record     9:Exit");
+			System.out.println("1: Deposit   2: Withdraw      3: Transit to Another Bank    4: Display Description     5: Convert Randamlly");
+			System.out.println("6: Interest  7: Show Saving   8: Display & Print Record     9: Exit");
 			choice = reader.next();
 			
 			switch(choice)
 			{
 			case "1": System.out.println("Enter the amount to deposit: ");
 			amount = amountReader.nextDouble();
-			bank[0].deposit(amount);
+			bank[3].deposit(amount);
 			break;
 			case "2": System.out.println("Enter the amount to withdraw: ");
 			amount = amountReader.nextDouble();
-			bank[0].withdraw(amount);
+			bank[3].withdraw(amount);
 			break;
 			case "3": while(!exit1)
 			{
 				System.out.println("Choose the bank you would like to transit to:"); 
-				System.out.println("2: Australian Dollar  3: Canadian Dollar  4: Yen  5: Euro  6: Mexican Peso  7: Pound Sterling  8: Dong  9:Exit");
+				System.out.println("1: US dollar  2: Australian Dollar  3: Canadian Dollar  5: Euro  6: Mexican Peso  7: Pound Sterling  8: Dong  9:Exit");
 				choice = reader.next();
 				
 				switch(choice)
 				{
+				case "1":System.out.println("Enter the amount to transit: ");
+				amount = reader.nextDouble();
+				bankChoice = Integer.parseInt(choice);
+				bank[3].transitToOtherBank(amount, bankChoice, bank[0]);
+				exit1 = true;
+				break;
 				case "2":System.out.println("Enter the amount to transit: ");
 				amount = reader.nextDouble();
 				bankChoice = Integer.parseInt(choice);
-				bank[0].transitToOtherBank(amount, bankChoice, bank[1]);
+				bank[3].transitToOtherBank(amount, bankChoice, bank[1]);
 				exit1 = true;
 				break;
 				case "3":System.out.println("Enter the amount to transit: ");
 				amount = reader.nextDouble();
 				bankChoice = Integer.parseInt(choice);
-				bank[0].transitToOtherBank(amount, bankChoice, bank[2]);
-				exit1 = true;
-				break;
-				case "4":System.out.println("Enter the amount to transit: ");
-				amount = amountReader.nextDouble();
-				bankChoice = Integer.parseInt(choice);
-				bank[0].transitToOtherBank(amount, bankChoice, bank[3]);	
+				bank[3].transitToOtherBank(amount, bankChoice, bank[2]);
 				exit1 = true;
 				break;
 				case "5":System.out.println("Enter the amount to transit: ");
 				amount = reader.nextDouble();
 				bankChoice = Integer.parseInt(choice);
-				bank[0].transitToOtherBank(amount, bankChoice, bank[4]);
+				bank[3].transitToOtherBank(amount, bankChoice, bank[4]);
 				exit1 = true;
 				break;
 				case "6":System.out.println("Enter the amount to transit: ");
 				amount = reader.nextDouble();		
 				bankChoice = Integer.parseInt(choice);
-				bank[0].transitToOtherBank(amount, bankChoice, bank[5]);	
+				bank[3].transitToOtherBank(amount, bankChoice, bank[5]);	
 				exit1 = true;
 				break;
 				case "7":System.out.println("Enter the amount to transit: ");
 				amount = reader.nextDouble();	
 				bankChoice = Integer.parseInt(choice);
-				bank[0].transitToOtherBank(amount, bankChoice, bank[6]);
+				bank[3].transitToOtherBank(amount, bankChoice, bank[6]);
 				exit1 = true;
 				break;
 				case "8":System.out.println("Enter the amount to transit: ");
 				amount = reader.nextDouble();
 				bankChoice = Integer.parseInt(choice);
-				bank[0].transitToOtherBank(amount, bankChoice, bank[7]);
+				bank[3].transitToOtherBank(amount, bankChoice, bank[7]);
 				exit1 = true;
 				break;
 				case "9":exit1 = true;
@@ -543,18 +546,17 @@ public class USBank extends Bank implements Converter, ActionListener{
 			}	
 			exit1 = false;
 			break;
-			case "4": bank[0].description();
+			case "4": bank[3].description();
 			break;
-			case "5": bank[0].GUI();
+			case "5": bank[3].GUI();
 			break;
 			case "6": System.out.println("Enter the period in years: ");
 			year = reader.nextInt();
-			bank[0].calculateInterest(year);
+			bank[3].calculateInterest(year);
 			break;
-			case "7": bank[0].showTotal();
+			case "7": bank[3].showTotal();
 			break;
-			case "8": bank[0].record();
-			printRecord();
+			case "8": bank[3].record();
 			break;
 			case "9": System.out.println("Thank you!");
 			exit = true;
@@ -574,7 +576,7 @@ public class USBank extends Bank implements Converter, ActionListener{
 			outPutFile.println("US: " + bank[0].getTotal());
 //			outPutFile.println("Canadian: " + bank[1].getTotal());
 //			outPutFile.println("Australian: " + bank[2].getTotal());
-			outPutFile.println("Yen: " + bank[1].getTotal());
+			outPutFile.println("Yen: " + bank[3].getTotal());
 //			outPutFile.println("Euro: " + bank[4].getTotal());
 //			outPutFile.println("Peso: " + bank[5].getTotal());
 //			outPutFile.println("Pound: " + bank[6].getTotal());
@@ -588,5 +590,6 @@ public class USBank extends Bank implements Converter, ActionListener{
 		}
 		
 		System.exit(0);
-	}	
+	}
+
 }

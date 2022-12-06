@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -37,7 +38,7 @@ public class USBank extends Bank implements Converter, ActionListener{
 		
 	public void withdraw(double money)
 	{
-		if(money >= getTotal())
+		if(money > getTotal())
 		{
 			System.out.println("Your saving is less than " + Math.round((money * 100.0) / 100.0) + "." + " This action failed");
 		}
@@ -327,6 +328,7 @@ public class USBank extends Bank implements Converter, ActionListener{
 		textField[7] = textfield8;
 		
 		textField[0].setBounds(220, 50, 150, 25);
+		textField[0].setEditable(false);
 		textField[1].setBounds(220, 100, 150, 25);
 		textField[1].setEditable(false);
 		textField[2].setBounds(220, 150, 150, 25);
@@ -358,14 +360,17 @@ public class USBank extends Bank implements Converter, ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		
 		double balance;
-		String amount = textField[0].getText();
-		double money = Double.parseDouble(amount);
+		Random random = new Random();
+		double money = random.nextInt(1000);
 		String str;
 		
-		for(int i = 1; i <= 8 ; i++)
+		for(int i = 0; i <= 8 ; i++)
 		{
 			switch(i)
 			{
+			case 0: str = Double.toString(money);
+			textField[0].setText(str);
+			break;
 			case 1: balance = converter(money, getAustralianDollar());
 			str = Double.toString(balance);
 			textField[i].setText(str);
@@ -466,7 +471,7 @@ public class USBank extends Bank implements Converter, ActionListener{
 		{
 			
 			System.out.println("Choose the option:");
-			System.out.println("1: Deposit   2: Withdraw      3: Transit to Another Bank    4: Display Description     5: Convert");
+			System.out.println("1: Deposit   2: Withdraw      3: Transit to Another Bank    4: Display Description     5: Convert Randomlly");
 			System.out.println("6: Interest  7: Show Saving   8: Display & Print Record     9:Exit");
 			choice = reader.next();
 			
