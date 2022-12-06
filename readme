@@ -18,6 +18,7 @@ In the Japanese class, only converting to US Dollar works.
 
 Each bank total saving will read from file(bank_information.txt) and concreate object by using the information.
 If you choose the "exit" option, the bank infromation will be save in the same file(bank_information.txt).
+Since I have only two class, only USBank and JapaneseBank information will be saved in the file.
 
 By compiling the code, the option will show on the console.
 Only displaying convert and description will be display on GUI.
